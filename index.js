@@ -62,6 +62,28 @@ async function run() {
             res.send(result);
         })
 
+        app.put('/delete/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: ObjectId(id) };
+            const user = req.body;
+            const Eemail = req.params.email
+            const option = { upsert: true };
+            const updatedUser = {
+                $set: {
+
+                    name: user.taskName,
+                    image: user.image,
+                    postTime: user.postTime,
+                    details: user.details,
+                    email: Eemail,
+                    link: user.taskLink
+
+                }
+            }
+            const result = await allMedia.updateOne(filter, updatedUser, option);
+            res.send(result);
+        })
+
         //comments
         app.post('/comments', async (req, res) => {
             const item = req.body
